@@ -247,4 +247,80 @@ mod DMux4Way {
     d := sel[1]->and(dmux.b);
 }
 
-mod DMux8Way {}
+mod DMux8Way {
+    incoming in : Bit;
+    incoming sel : Word[3];
+
+    outgoing a : Bit;
+    outgoing b : Bit;
+    outgoing c : Bit;
+    outgoing d : Bit;
+    outgoing e : Bit;
+    outgoing f : Bit;
+    outgoing g : Bit;
+    outgoing h : Bit;
+
+    mod dmux4way of DMux4Way;
+    dmux4way.in := in;
+    dmux4way.sel := sel[2..0];
+
+    mod dmux0 of DMux;
+    mod dmux1 of DMux;
+    mod dmux2 of DMux;
+    mod dmux3 of DMux;
+
+    dmux0.in := dmux4way.a;
+    dmux1.in := dmux4way.b;
+    dmux2.in := dmux4way.c;
+    dmux3.in := dmux4way.d;
+
+    dmux0.sel := sel[2];
+    dmux1.sel := sel[2];
+    dmux2.sel := sel[2];
+    dmux3.sel := sel[2];
+
+    a := dmux0.a;
+    e := dmux0.b;
+    b := dmux1.a;
+    f := dmux1.b;
+    c := dmux2.a;
+    g := dmux2.b;
+    d := dmux3.a;
+    h := dmux3.b;
+}
+
+mod Mux8Way16 {
+    incoming a : Word[16];
+    incoming b : Word[16];
+    incoming c : Word[16];
+    incoming d : Word[16];
+    incoming e : Word[16];
+    incoming f : Word[16];
+    incoming g : Word[16];
+    incoming h : Word[16];
+
+    incoming sel : Word[3];
+
+    outgoing out : Word[16];
+
+    mod mux0 of Mux4Way16;
+    mux0.a := a;
+    mux0.b := b;
+    mux0.c := c;
+    mux0.d := d;
+    mux0.sel := sel[2..0];
+
+    mod mux1 of Mux4Way16;
+    mux1.a := e;
+    mux1.b := f;
+    mux1.c := g;
+    mux1.d := h;
+    mux1.sel := sel[2..0];
+
+    mod mux2 of Mux16;
+    mux2.a := mux0.out;
+    mux2.b := mux1.out;
+    mux2.sel := sel[2];
+
+    out := mux2.out;
+}

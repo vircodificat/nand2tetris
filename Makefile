@@ -4,7 +4,7 @@ run: build
 	./tb
 
 build:
-	vir compile src/arithmetic.vir
+	vir compile src/top.vir
 	iverilog tb.v build/* -o tb
 
 wave: build

@@ -1,0 +1,455 @@
+import base;
+
+mod DffEn {
+    incoming clock : Clock;
+
+    incoming in : Bit;
+    incoming load : Bit;
+    outgoing out : Bit;
+
+    reg state : Bit on clock;
+    state <= if load {
+        in
+    } else {
+        state
+    };
+
+    out := state;
+}
+
+mod Register {
+    incoming clock : Clock;
+
+    incoming in : Word[16];
+    incoming load : Bit;
+    outgoing out : Word[16];
+
+    mod register0 of DffEn;
+    mod register1 of DffEn;
+    mod register2 of DffEn;
+    mod register3 of DffEn;
+    mod register4 of DffEn;
+    mod register5 of DffEn;
+    mod register6 of DffEn;
+    mod register7 of DffEn;
+    mod register8 of DffEn;
+    mod register9 of DffEn;
+    mod register10 of DffEn;
+    mod register11 of DffEn;
+    mod register12 of DffEn;
+    mod register13 of DffEn;
+    mod register14 of DffEn;
+    mod register15 of DffEn;
+
+    register0.clock := clock;
+    register1.clock := clock;
+    register2.clock := clock;
+    register3.clock := clock;
+    register4.clock := clock;
+    register5.clock := clock;
+    register6.clock := clock;
+    register7.clock := clock;
+    register8.clock := clock;
+    register9.clock := clock;
+    register10.clock := clock;
+    register11.clock := clock;
+    register12.clock := clock;
+    register13.clock := clock;
+    register14.clock := clock;
+    register15.clock := clock;
+
+    register0.load := load;
+    register1.load := load;
+    register2.load := load;
+    register3.load := load;
+    register4.load := load;
+    register5.load := load;
+    register6.load := load;
+    register7.load := load;
+    register8.load := load;
+    register9.load := load;
+    register10.load := load;
+    register11.load := load;
+    register12.load := load;
+    register13.load := load;
+    register14.load := load;
+    register15.load := load;
+
+    register0.in := in[0];
+    register1.in := in[1];
+    register2.in := in[2];
+    register3.in := in[3];
+    register4.in := in[4];
+    register5.in := in[5];
+    register6.in := in[6];
+    register7.in := in[7];
+    register8.in := in[8];
+    register9.in := in[9];
+    register10.in := in[10];
+    register11.in := in[11];
+    register12.in := in[12];
+    register13.in := in[13];
+    register14.in := in[14];
+    register15.in := in[15];
+
+    out := word(
+        register15.out, register14.out, register13.out, register12.out,
+        register11.out, register10.out, register9.out, register8.out,
+        register7.out, register6.out, register5.out, register4.out,
+        register3.out, register2.out, register1.out, register0.out,
+    );
+}
+
+mod Ram8 {
+    incoming clock : Clock;
+
+    incoming in : Word[16];
+    incoming load : Bit;
+    incoming address : Word[3];
+
+    outgoing out : Word[16];
+
+    mod load_dmux of base::DMux8Way;
+    load_dmux.sel := address;
+    load_dmux.in := load;
+
+    mod r0 of Register;
+    mod r1 of Register;
+    mod r2 of Register;
+    mod r3 of Register;
+    mod r4 of Register;
+    mod r5 of Register;
+    mod r6 of Register;
+    mod r7 of Register;
+
+    r0.clock := clock;
+    r1.clock := clock;
+    r2.clock := clock;
+    r3.clock := clock;
+    r4.clock := clock;
+    r5.clock := clock;
+    r6.clock := clock;
+    r7.clock := clock;
+
+    r0.in := in;
+    r1.in := in;
+    r2.in := in;
+    r3.in := in;
+    r4.in := in;
+    r5.in := in;
+    r6.in := in;
+    r7.in := in;
+
+    r0.load := load_dmux.a;
+    r1.load := load_dmux.b;
+    r2.load := load_dmux.c;
+    r3.load := load_dmux.d;
+    r4.load := load_dmux.e;
+    r5.load := load_dmux.f;
+    r6.load := load_dmux.g;
+    r7.load := load_dmux.h;
+
+    mod load_mux of base::Mux8Way16;
+    load_mux.sel := address;
+    load_mux.a := r0.out;
+    load_mux.b := r1.out;
+    load_mux.c := r2.out;
+    load_mux.d := r3.out;
+    load_mux.e := r4.out;
+    load_mux.f := r5.out;
+    load_mux.g := r6.out;
+    load_mux.h := r7.out;
+
+    out := load_mux.out;
+}
+
+mod Ram64 {
+    incoming clock : Clock;
+
+    incoming in : Word[16];
+    incoming load : Bit;
+    incoming address : Word[6];
+
+    outgoing out : Word[16];
+
+    mod load_dmux of base::DMux8Way;
+    load_dmux.sel := address[6..3];
+    load_dmux.in := load;
+
+    mod r0 of Ram8;
+    mod r1 of Ram8;
+    mod r2 of Ram8;
+    mod r3 of Ram8;
+    mod r4 of Ram8;
+    mod r5 of Ram8;
+    mod r6 of Ram8;
+    mod r7 of Ram8;
+
+    r0.clock := clock;
+    r1.clock := clock;
+    r2.clock := clock;
+    r3.clock := clock;
+    r4.clock := clock;
+    r5.clock := clock;
+    r6.clock := clock;
+    r7.clock := clock;
+
+    r0.in := in;
+    r1.in := in;
+    r2.in := in;
+    r3.in := in;
+    r4.in := in;
+    r5.in := in;
+    r6.in := in;
+    r7.in := in;
+
+    r0.load := load_dmux.a;
+    r1.load := load_dmux.b;
+    r2.load := load_dmux.c;
+    r3.load := load_dmux.d;
+    r4.load := load_dmux.e;
+    r5.load := load_dmux.f;
+    r6.load := load_dmux.g;
+    r7.load := load_dmux.h;
+
+    r0.address := address[3..0];
+    r1.address := address[3..0];
+    r2.address := address[3..0];
+    r3.address := address[3..0];
+    r4.address := address[3..0];
+    r5.address := address[3..0];
+    r6.address := address[3..0];
+    r7.address := address[3..0];
+
+    mod load_mux of base::Mux8Way16;
+    load_mux.sel := address[6..3];
+    load_mux.a := r0.out;
+    load_mux.b := r1.out;
+    load_mux.c := r2.out;
+    load_mux.d := r3.out;
+    load_mux.e := r4.out;
+    load_mux.f := r5.out;
+    load_mux.g := r6.out;
+    load_mux.h := r7.out;
+
+    out := load_mux.out;
+}
+
+mod Ram512 {
+    incoming clock : Clock;
+
+    incoming in : Word[16];
+    incoming load : Bit;
+    incoming address : Word[9];
+
+    outgoing out : Word[16];
+
+    mod load_dmux of base::DMux8Way;
+    load_dmux.in := load;
+
+    mod r0 of Ram64;
+    mod r1 of Ram64;
+    mod r2 of Ram64;
+    mod r3 of Ram64;
+    mod r4 of Ram64;
+    mod r5 of Ram64;
+    mod r6 of Ram64;
+    mod r7 of Ram64;
+
+    r0.clock := clock;
+    r1.clock := clock;
+    r2.clock := clock;
+    r3.clock := clock;
+    r4.clock := clock;
+    r5.clock := clock;
+    r6.clock := clock;
+    r7.clock := clock;
+
+    r0.in := in;
+    r1.in := in;
+    r2.in := in;
+    r3.in := in;
+    r4.in := in;
+    r5.in := in;
+    r6.in := in;
+    r7.in := in;
+
+    r0.load := load_dmux.a;
+    r1.load := load_dmux.b;
+    r2.load := load_dmux.c;
+    r3.load := load_dmux.d;
+    r4.load := load_dmux.e;
+    r5.load := load_dmux.f;
+    r6.load := load_dmux.g;
+    r7.load := load_dmux.h;
+
+    load_dmux.sel := address[9..6];
+    load_mux.sel := address[9..6];
+
+    r0.address := address[6..0];
+    r1.address := address[6..0];
+    r2.address := address[6..0];
+    r3.address := address[6..0];
+    r4.address := address[6..0];
+    r5.address := address[6..0];
+    r6.address := address[6..0];
+    r7.address := address[6..0];
+
+    mod load_mux of base::Mux8Way16;
+    load_mux.a := r0.out;
+    load_mux.b := r1.out;
+    load_mux.c := r2.out;
+    load_mux.d := r3.out;
+    load_mux.e := r4.out;
+    load_mux.f := r5.out;
+    load_mux.g := r6.out;
+    load_mux.h := r7.out;
+
+    out := load_mux.out;
+}
+
+mod Ram4k {
+    incoming clock : Clock;
+
+    incoming in : Word[16];
+    incoming load : Bit;
+    incoming address : Word[12];
+
+    outgoing out : Word[16];
+
+    mod load_dmux of base::DMux8Way;
+    load_dmux.in := load;
+
+    mod r0 of Ram512;
+    mod r1 of Ram512;
+    mod r2 of Ram512;
+    mod r3 of Ram512;
+    mod r4 of Ram512;
+    mod r5 of Ram512;
+    mod r6 of Ram512;
+    mod r7 of Ram512;
+
+    r0.clock := clock;
+    r1.clock := clock;
+    r2.clock := clock;
+    r3.clock := clock;
+    r4.clock := clock;
+    r5.clock := clock;
+    r6.clock := clock;
+    r7.clock := clock;
+
+    r0.in := in;
+    r1.in := in;
+    r2.in := in;
+    r3.in := in;
+    r4.in := in;
+    r5.in := in;
+    r6.in := in;
+    r7.in := in;
+
+    r0.load := load_dmux.a;
+    r1.load := load_dmux.b;
+    r2.load := load_dmux.c;
+    r3.load := load_dmux.d;
+    r4.load := load_dmux.e;
+    r5.load := load_dmux.f;
+    r6.load := load_dmux.g;
+    r7.load := load_dmux.h;
+
+    load_dmux.sel := address[12..9];
+    load_mux.sel := address[12..9];
+
+    r0.address := address[9..0];
+    r1.address := address[9..0];
+    r2.address := address[9..0];
+    r3.address := address[9..0];
+    r4.address := address[9..0];
+    r5.address := address[9..0];
+    r6.address := address[9..0];
+    r7.address := address[9..0];
+
+    mod load_mux of base::Mux8Way16;
+    load_mux.a := r0.out;
+    load_mux.b := r1.out;
+    load_mux.c := r2.out;
+    load_mux.d := r3.out;
+    load_mux.e := r4.out;
+    load_mux.f := r5.out;
+    load_mux.g := r6.out;
+    load_mux.h := r7.out;
+
+    out := load_mux.out;
+}
+
+mod Ram16k {
+    incoming clock : Clock;
+
+    incoming in : Word[16];
+    incoming load : Bit;
+    incoming address : Word[14];
+
+    outgoing out : Word[16];
+
+    mod load_dmux of base::DMux8Way;
+    load_dmux.in := load;
+
+    mod r0 of Ram4k;
+    mod r1 of Ram4k;
+    mod r2 of Ram4k;
+    mod r3 of Ram4k;
+    mod r4 of Ram4k;
+    mod r5 of Ram4k;
+    mod r6 of Ram4k;
+    mod r7 of Ram4k;
+
+    r0.clock := clock;
+    r1.clock := clock;
+    r2.clock := clock;
+    r3.clock := clock;
+    r4.clock := clock;
+    r5.clock := clock;
+    r6.clock := clock;
+    r7.clock := clock;
+
+    r0.in := in;
+    r1.in := in;
+    r2.in := in;
+    r3.in := in;
+    r4.in := in;
+    r5.in := in;
+    r6.in := in;
+    r7.in := in;
+
+    r0.load := load_dmux.a;
+    r1.load := load_dmux.b;
+    r2.load := load_dmux.c;
+    r3.load := load_dmux.d;
+    r4.load := load_dmux.e;
+    r5.load := load_dmux.f;
+    r6.load := load_dmux.g;
+    r7.load := load_dmux.h;
+
+    load_dmux.sel := word(0w1, address[14..12]);
+    load_mux.sel := word(0w1, address[14..12]);
+
+    r0.address := address[12..0];
+    r1.address := address[12..0];
+    r2.address := address[12..0];
+    r3.address := address[12..0];
+    r4.address := address[12..0];
+    r5.address := address[12..0];
+    r6.address := address[12..0];
+    r7.address := address[12..0];
+
+    mod load_mux of base::Mux8Way16;
+    load_mux.a := r0.out;
+    load_mux.b := r1.out;
+    load_mux.c := r2.out;
+    load_mux.d := r3.out;
+    load_mux.e := r4.out;
+    load_mux.f := r5.out;
+    load_mux.g := r6.out;
+    load_mux.h := r7.out;
+
+    out := load_mux.out;
+}
