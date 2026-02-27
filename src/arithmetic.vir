@@ -163,9 +163,9 @@ mod Alu {
     x1 := mux_x1.out;
 
     mod mux_y0 of base::Mux16;
-    mux_y0.a := x;
+    mux_y0.a := y;
     mux_y0.b := 0;
-    mux_y0.sel := zx;
+    mux_y0.sel := zy;
 
     mod mux_y1 of base::Mux16;
     mux_y1.a := mux_y0.out;

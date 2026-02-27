@@ -1,0 +1,69 @@
+[*]
+[*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
+[*] Fri Feb 27 03:12:24 2026
+[*]
+[dumpfile] "/home/vircodificat/projects/nand2tetris/alu.vcd"
+[dumpfile_mtime] "Fri Feb 27 03:11:41 2026"
+[dumpfile_size] 87931
+[savefile] "/home/vircodificat/projects/nand2tetris/vars.gtkw"
+[timestart] 5500
+[size] 1000 600
+[pos] -1 -1
+*-13.000000 25000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] Alu_tb.
+[sst_width] 278
+[signals_width] 102
+[sst_expanded] 1
+[sst_vpaned_height] 157
+@28
+Alu_tb.clk
+@200
+-
+@24
+Alu_tb.x[15:0]
+@c00024
+Alu_tb.y[15:0]
+@28
+(0)Alu_tb.y[15:0]
+(1)Alu_tb.y[15:0]
+(2)Alu_tb.y[15:0]
+(3)Alu_tb.y[15:0]
+(4)Alu_tb.y[15:0]
+(5)Alu_tb.y[15:0]
+(6)Alu_tb.y[15:0]
+(7)Alu_tb.y[15:0]
+(8)Alu_tb.y[15:0]
+(9)Alu_tb.y[15:0]
+(10)Alu_tb.y[15:0]
+(11)Alu_tb.y[15:0]
+(12)Alu_tb.y[15:0]
+(13)Alu_tb.y[15:0]
+(14)Alu_tb.y[15:0]
+(15)Alu_tb.y[15:0]
+@1401200
+-group_end
+@200
+-
+@28
+Alu_tb.zx
+Alu_tb.nx
+@200
+-
+@28
+Alu_tb.zy
+@29
+Alu_tb.ny
+@200
+-
+@28
+Alu_tb.f
+Alu_tb.no
+@200
+-
+@24
+Alu_tb.out[15:0]
+@28
+Alu_tb.ng
+Alu_tb.zr
+[pattern_trace] 1
+[pattern_trace] 0

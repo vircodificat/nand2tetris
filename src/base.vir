@@ -49,7 +49,7 @@ mod Mux {
     outgoing out : Bit;
 
     wire if_not_sel_a : Bit;
-    if_not_sel_a := b->and(sel->not());
+    if_not_sel_a := a->and(sel->not());
 
     wire if_sel_b : Bit;
     if_sel_b := b->and(sel);
@@ -187,10 +187,10 @@ mod Mux16 {
     mux15.sel := sel;
 
     out := word(
-        mux0.out, mux1.out, mux2.out, mux3.out,
-        mux4.out, mux5.out, mux6.out, mux7.out,
-        mux8.out, mux9.out, mux10.out, mux11.out,
-        mux12.out, mux13.out, mux14.out, mux15.out,
+        mux15.out, mux14.out, mux13.out, mux12.out,
+        mux11.out, mux10.out, mux9.out, mux8.out,
+        mux7.out, mux6.out, mux5.out, mux4.out,
+        mux3.out, mux2.out, mux1.out, mux0.out,
     );
 }
 

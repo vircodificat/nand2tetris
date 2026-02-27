@@ -1,7 +1,19 @@
-all:
-	vir compile src/arithmetic.vir
-	iverilog tb.v build/* -o build/tb
-	./build/tb
+all: run
 
-wave: all
-	gtkwave alu.vcd 
+run: build
+	./tb
+
+build:
+	vir compile src/arithmetic.vir
+	iverilog tb.v build/* -o tb
+
+wave: build
+	./tb || exit 0
+	gtkwave vars.gtkw
+
+clean:
+	rm -rf build/
+	rm -f tb
+	
+
+.PHONY: all clean build wave
