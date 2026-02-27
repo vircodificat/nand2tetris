@@ -1,0 +1,212 @@
+import base;
+
+mod HalfAdder {
+    incoming a : Bit;
+    incoming b : Bit;
+
+    outgoing sum : Bit;
+    outgoing carry : Bit;
+
+    sum := a->xor(b);
+    carry := a->and(b);
+}
+
+mod FullAdder {
+    incoming a : Bit;
+    incoming b : Bit;
+    incoming c : Bit;
+
+    outgoing sum : Bit;
+    outgoing carry : Bit;
+
+    mod half0 of HalfAdder;
+    half0.a := a;
+    half0.b := b;
+
+    mod half1 of HalfAdder;
+    half1.a := half0.sum;
+    half1.b := c;
+
+    sum := half1.sum;
+    carry := half0.carry->or(half1.carry);
+}
+
+mod Add16 {
+    incoming a : Word[16];
+    incoming b : Word[16];
+    outgoing out : Word[16];
+
+    mod half0 of FullAdder;
+    half0.a := a[0];
+    half0.b := b[0];
+    half0.c := false;
+
+    mod half1 of FullAdder;
+    half1.a := a[1];
+    half1.b := b[1];
+    half1.c := half0.carry;
+
+    mod half2 of FullAdder;
+    half2.a := a[2];
+    half2.b := b[2];
+    half2.c := half1.carry;
+
+    mod half3 of FullAdder;
+    half3.a := a[3];
+    half3.b := b[3];
+    half3.c := half2.carry;
+
+    mod half4 of FullAdder;
+    half4.a := a[4];
+    half4.b := b[4];
+    half4.c := half3.carry;
+
+    mod half5 of FullAdder;
+    half5.a := a[5];
+    half5.b := b[5];
+    half5.c := half4.carry;
+
+    mod half6 of FullAdder;
+    half6.a := a[6];
+    half6.b := b[6];
+    half6.c := half5.carry;
+
+    mod half7 of FullAdder;
+    half7.a := a[7];
+    half7.b := b[7];
+    half7.c := half6.carry;
+
+    mod half8 of FullAdder;
+    half8.a := a[8];
+    half8.b := b[8];
+    half8.c := half7.carry;
+
+    mod half9 of FullAdder;
+    half9.a := a[9];
+    half9.b := b[9];
+    half9.c := half8.carry;
+
+    mod half10 of FullAdder;
+    half10.a := a[10];
+    half10.b := b[10];
+    half10.c := half9.carry;
+
+    mod half11 of FullAdder;
+    half11.a := a[11];
+    half11.b := b[11];
+    half11.c := half10.carry;
+
+    mod half12 of FullAdder;
+    half12.a := a[12];
+    half12.b := b[12];
+    half12.c := half11.carry;
+
+    mod half13 of FullAdder;
+    half13.a := a[13];
+    half13.b := b[13];
+    half13.c := half12.carry;
+
+    mod half14 of FullAdder;
+    half14.a := a[14];
+    half14.b := b[14];
+    half14.c := half13.carry;
+
+    mod half15 of FullAdder;
+    half15.a := a[15];
+    half15.b := b[15];
+    half15.c := half14.carry;
+
+    out := word(
+        half15.sum, half14.sum, half13.sum, half12.sum,
+        half11.sum, half10.sum, half9.sum, half8.sum,
+        half7.sum, half6.sum, half5.sum, half4.sum,
+        half3.sum, half2.sum, half1.sum, half0.sum,
+    );
+}
+
+mod Inc16 {
+    incoming in : Word[16];
+    outgoing out : Word[16];
+
+    mod adder of Add16;
+    adder.a := in;
+    adder.b := 1;
+
+    out := adder.out;
+}
+
+mod Alu {
+    incoming x : Word[16];    // 16-bit inputs
+    incoming y : Word[16];
+    incoming zx : Bit;        // zero the x input?
+    incoming nx : Bit;        // negate the x input?
+    incoming zy : Bit;        // zero the y input?
+    incoming ny : Bit;        // negate the y input?
+    incoming f  : Bit;        // compute (out = x + y) or (out = x & y)?
+    incoming no : Bit;        // negate the out output?
+
+    outgoing out : Word[16];  // 16-bit output
+    outgoing zr  : Bit;       // if (out == 0) equals 1; else 0
+    outgoing ng  : Bit;       // if (out < 0)  equals 1; else 0
+
+    mod mux_x0 of base::Mux16;
+    mux_x0.a := x;
+    mux_x0.b := 0;
+    mux_x0.sel := zx;
+
+    mod mux_x1 of base::Mux16;
+    mux_x1.a := mux_x0.out;
+    mux_x1.b := mux_x0.out->not();
+    mux_x1.sel := nx;
+
+    wire x1 : Word[16];
+    x1 := mux_x1.out;
+
+    mod mux_y0 of base::Mux16;
+    mux_y0.a := x;
+    mux_y0.b := 0;
+    mux_y0.sel := zx;
+
+    mod mux_y1 of base::Mux16;
+    mux_y1.a := mux_y0.out;
+    mux_y1.b := mux_y0.out->not();
+    mux_y1.sel := ny;
+
+    wire y1 : Word[16];
+    y1 := mux_y1.out;
+
+    mod adder of Add16;
+    adder.a := x1;
+    adder.b := y1;
+
+    mod ander of base::And16;
+    ander.a := x1;
+    ander.b := y1;
+
+    mod mux_out of base::Mux16;
+    mux_out.a := adder.out;
+    mux_out.b := ander.out;
+    mux_out.sel := f;
+
+    wire out0 : Word[16];
+    out0 := mux_out.out;
+
+    mod mux_result of base::Mux16;
+    mux_result.a := out0;
+    mux_result.b := out0->not();
+    mux_result.sel := no;
+
+    wire result : Word[16];
+    result := mux_result.out;
+
+    out := result;
+
+    mod any_lo of base::Or8Way;
+    any_lo.in := result[8..0];
+
+    mod any_hi of base::Or8Way;
+    any_hi.in := result[16..8];
+
+    ng := result[15];
+    zr := any_lo.out->or(any_hi.out)->not();
+}

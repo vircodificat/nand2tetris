@@ -1,0 +1,250 @@
+mod Nand {
+    incoming a : Bit;
+    incoming b : Bit;
+    outgoing out : Bit;
+
+    out := a->and(b)->not();
+}
+
+mod Not {
+    incoming in : Bit;
+    outgoing out : Bit;
+
+    out := in->not();
+}
+
+mod And {
+    incoming a : Bit;
+    incoming b : Bit;
+    outgoing out : Bit;
+
+    out := a->and(b);
+}
+
+mod Or {
+    incoming a : Bit;
+    incoming b : Bit;
+    outgoing out : Bit;
+
+    out := a->or(b);
+}
+
+mod XOr {
+    incoming a : Bit;
+    incoming b : Bit;
+    outgoing out : Bit;
+
+    wire not_a_b : Bit;
+    not_a_b := a->not()->and(b);
+    wire a_not_b : Bit;
+    a_not_b := a->and(b->not());
+
+    out := not_a_b->or(a_not_b);
+}
+
+mod Mux {
+    incoming a : Bit;
+    incoming b : Bit;
+    incoming sel : Bit;
+    outgoing out : Bit;
+
+    wire if_not_sel_a : Bit;
+    if_not_sel_a := b->and(sel->not());
+
+    wire if_sel_b : Bit;
+    if_sel_b := b->and(sel);
+
+    out := if_not_sel_a->or(if_sel_b);
+}
+
+mod DMux {
+    incoming in : Bit;
+    incoming sel : Bit;
+    outgoing a : Bit;
+    outgoing b : Bit;
+
+    mod mux0 of Mux;
+    mux0.sel := sel;
+    mux0.a := false;
+    mux0.b := in;
+
+    mod mux1 of Mux;
+    mux1.sel := sel;
+    mux1.a := in;
+    mux1.b := false;
+
+    a := mux0.out;
+    b := mux1.out;
+}
+
+mod Not16 {
+    incoming in : Word[16];
+    outgoing out : Word[16];
+
+    out := in->not();
+}
+
+mod And16 {
+    incoming a : Word[16];
+    incoming b : Word[16];
+    outgoing out : Word[16];
+
+    out := a->and(b);
+}
+
+mod Or16 {
+    incoming a : Word[16];
+    incoming b : Word[16];
+    outgoing out : Word[16];
+
+    out := a->or(b);
+}
+
+mod Mux16 {
+    incoming a : Word[16];
+    incoming b : Word[16];
+    incoming sel : Bit;
+    outgoing out : Word[16];
+
+    mod mux0 of Mux;
+    mux0.a := a[0];
+    mux0.b := b[0];
+    mux0.sel := sel;
+
+    mod mux1 of Mux;
+    mux1.a := a[1];
+    mux1.b := b[1];
+    mux1.sel := sel;
+
+    mod mux2 of Mux;
+    mux2.a := a[2];
+    mux2.b := b[2];
+    mux2.sel := sel;
+
+    mod mux3 of Mux;
+    mux3.a := a[3];
+    mux3.b := b[3];
+    mux3.sel := sel;
+
+    mod mux4 of Mux;
+    mux4.a := a[4];
+    mux4.b := b[4];
+    mux4.sel := sel;
+
+    mod mux5 of Mux;
+    mux5.a := a[5];
+    mux5.b := b[5];
+    mux5.sel := sel;
+
+    mod mux6 of Mux;
+    mux6.a := a[6];
+    mux6.b := b[6];
+    mux6.sel := sel;
+
+    mod mux7 of Mux;
+    mux7.a := a[7];
+    mux7.b := b[7];
+    mux7.sel := sel;
+
+    mod mux8 of Mux;
+    mux8.a := a[8];
+    mux8.b := b[8];
+    mux8.sel := sel;
+
+    mod mux9 of Mux;
+    mux9.a := a[9];
+    mux9.b := b[9];
+    mux9.sel := sel;
+
+    mod mux10 of Mux;
+    mux10.a := a[10];
+    mux10.b := b[10];
+    mux10.sel := sel;
+
+    mod mux11 of Mux;
+    mux11.a := a[11];
+    mux11.b := b[11];
+    mux11.sel := sel;
+
+    mod mux12 of Mux;
+    mux12.a := a[12];
+    mux12.b := b[12];
+    mux12.sel := sel;
+
+    mod mux13 of Mux;
+    mux13.a := a[13];
+    mux13.b := b[13];
+    mux13.sel := sel;
+
+    mod mux14 of Mux;
+    mux14.a := a[14];
+    mux14.b := b[14];
+    mux14.sel := sel;
+
+    mod mux15 of Mux;
+    mux15.a := a[15];
+    mux15.b := b[15];
+    mux15.sel := sel;
+
+    out := word(
+        mux0.out, mux1.out, mux2.out, mux3.out,
+        mux4.out, mux5.out, mux6.out, mux7.out,
+        mux8.out, mux9.out, mux10.out, mux11.out,
+        mux12.out, mux13.out, mux14.out, mux15.out,
+    );
+}
+
+mod Or8Way {
+    incoming in : Word[8];
+    outgoing out : Bit;
+
+    out := in->any();
+}
+
+mod Mux4Way16 {
+    incoming a : Word[16];
+    incoming b : Word[16];
+    incoming c : Word[16];
+    incoming d : Word[16];
+
+    incoming sel : Word[2];
+
+    outgoing out : Word[16];
+
+    mod mux0 of Mux16;
+    mux0.a := a;
+    mux0.b := b;
+    mux0.sel := sel[0];
+
+    mod mux1 of Mux16;
+    mux1.a := a;
+    mux1.b := b;
+    mux1.sel := sel[0];
+
+    mod mux2 of Mux16;
+    mux2.a := mux0.out;
+    mux2.b := mux1.out;
+    mux2.sel := sel[1];
+
+    out := mux2.out;
+}
+
+mod DMux4Way {
+    incoming in : Bit;
+    incoming sel : Word[2];
+    outgoing a : Bit;
+    outgoing b : Bit;
+    outgoing c : Bit;
+    outgoing d : Bit;
+
+    mod dmux of DMux;
+    dmux.in := in;
+    dmux.sel := sel[0];
+
+    a := sel[1]->not()->and(dmux.a);
+    b := sel[1]->not()->and(dmux.b);
+    c := sel[1]->and(dmux.a);
+    d := sel[1]->and(dmux.b);
+}
+
+mod DMux8Way {}
