@@ -384,6 +384,16 @@ mod Ram4k {
 }
 */
 
+ext mod Ram16k {
+    incoming clock : Clock;
+
+    incoming in : Word[16];
+    incoming load : Bit;
+    incoming address : Word[14];
+
+    outgoing out : Word[16];
+}
+
 /*
 mod Ram16k {
     incoming clock : Clock;
