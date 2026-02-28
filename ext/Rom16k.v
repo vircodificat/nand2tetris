@@ -1,11 +1,7 @@
 module Rom16k(
-    input  wire        clock,
     input  wire [13:0] address,
-    output reg  [15:0] out
+    output wire [15:0] out
 );
     reg [15:0] memory [0:16383];
-
-    always @(posedge clock) begin
-        out <= memory[address];
-    end
+    assign out = memory[address];
 endmodule

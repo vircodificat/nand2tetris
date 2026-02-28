@@ -1,0 +1,55 @@
+[*]
+[*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
+[*] Sat Feb 28 06:10:50 2026
+[*]
+[dumpfile] "build/computer.vcd"
+[dumpfile_mtime] "Sat Feb 28 06:08:43 2026"
+[dumpfile_size] 129975
+[savefile] "gtkw/computer.gtkw"
+[timestart] 0
+[size] 1136 600
+[pos] -1 -1
+*-14.000000 15000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] Computer_tb.
+[treeopen] Computer_tb.cpu.
+[treeopen] Computer_tb.cpu.a_reg.
+[treeopen] Computer_tb.cpu.a_reg.register0.
+[sst_width] 278
+[signals_width] 215
+[sst_expanded] 1
+[sst_vpaned_height] 157
+@28
+Computer_tb.cycle
+@200
+-
+@28
+Computer_tb.clock
+Computer_tb.reset
+@200
+-
+-Registers
+@22
+Computer_tb.cpu.pc_reg__out[15:0]
+Computer_tb.cpu.a_reg__out[15:0]
+Computer_tb.cpu.d_reg__out[15:0]
+@200
+-
+-Rom
+@22
+Computer_tb.rom.address[13:0]
+Computer_tb.rom.out[15:0]
+@200
+-
+-Extra
+@22
+Computer_tb.cpu.instruction[15:0]
+@28
+Computer_tb.cpu.a_reg__load
+@29
+Computer_tb.cpu.a_reg.register0.in
+@28
+Computer_tb.cpu.a_reg.register0.load
+Computer_tb.cpu.a_reg.register0.out
+Computer_tb.cpu.a_reg.register0.state
+[pattern_trace] 1
+[pattern_trace] 0

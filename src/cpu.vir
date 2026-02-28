@@ -37,10 +37,11 @@ mod Cpu {
     d_reg.clock := clock;
     pc_reg.clock := clock;
 
-    control.instruction := instruction;
-    a_reg.load := control.load_a;
-    d_reg.load := control.load_d;
+    a_reg.load  := control.load_a;
+    d_reg.load  := control.load_d;
     pc_reg.load := control.load_pc;
+
+    control.instruction := instruction;
 
     pc_reg.reset := reset;
 
@@ -81,11 +82,11 @@ mod Control {
 
     outgoing memory_write : Bit;
 
-    load_a := instruction[15]->or(false); // TODO
+    load_a := instruction[15]->not(); // TODO
     load_d := false;
     load_pc := false;
 
-    inc_pc := false;
+    inc_pc := true;
 
     alu_zx := false;
     alu_nx := false;
@@ -96,5 +97,5 @@ mod Control {
 
     alu_source_memory := false;
     memory_write := false;
-    a_source_instruction := instruction[15];
+    a_source_instruction := instruction[15]->not();
 }

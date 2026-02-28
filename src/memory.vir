@@ -470,8 +470,6 @@ mod Ram16k {
 */
 
 ext mod Rom16k {
-    incoming clock : Clock;
-
     incoming address : Word[14];
     outgoing out : Word[16];
 }
