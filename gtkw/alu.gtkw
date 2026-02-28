@@ -2,10 +2,10 @@
 [*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
 [*] Fri Feb 27 03:12:24 2026
 [*]
-[dumpfile] "/home/vircodificat/projects/nand2tetris/alu.vcd"
+[dumpfile] "build/alu.vcd"
 [dumpfile_mtime] "Fri Feb 27 03:11:41 2026"
 [dumpfile_size] 87931
-[savefile] "/home/vircodificat/projects/nand2tetris/vars.gtkw"
+[savefile] "gtkw/alu.gtkw"
 [timestart] 5500
 [size] 1000 600
 [pos] -1 -1

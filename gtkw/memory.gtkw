@@ -2,10 +2,10 @@
 [*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
 [*] Sat Feb 28 02:50:41 2026
 [*]
-[dumpfile] "/home/vircodificat/projects/nand2tetris/memory.vcd"
+[dumpfile] "build/memory.vcd"
 [dumpfile_mtime] "Sat Feb 28 02:49:59 2026"
 [dumpfile_size] 471
-[savefile] "/home/vircodificat/projects/nand2tetris/memory.gtkw"
+[savefile] "gtkw/memory.gtkw"
 [timestart] 0
 [size] 1000 600
 [pos] -1 -1
