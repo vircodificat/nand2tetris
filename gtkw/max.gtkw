@@ -1,0 +1,111 @@
+[*]
+[*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
+[*] Sat Feb 28 23:44:32 2026
+[*]
+[dumpfile] "/home/vircodificat/projects/nand2tetris/build/max.vcd"
+[dumpfile_mtime] "Sat Feb 28 23:43:31 2026"
+[dumpfile_size] 271098
+[savefile] "/home/vircodificat/projects/nand2tetris/gtkw/max.gtkw"
+[timestart] 0
+[size] 1440 881
+[pos] -27 -24
+*-14.000000 40000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] Max_tb.
+[treeopen] Max_tb.cpu.
+[treeopen] Max_tb.cpu.a_reg.register0.
+[treeopen] Max_tb.ram.
+[sst_width] 278
+[signals_width] 215
+[sst_expanded] 1
+[sst_vpaned_height] 255
+@28
+Max_tb.cycle
+@200
+-
+@28
+Max_tb.clock
+Max_tb.reset
+@200
+-
+-Registers
+@22
+Max_tb.cpu.pc_reg__out[15:0]
+Max_tb.cpu.a_reg__out[15:0]
+@c00022
+Max_tb.cpu.d_reg__out[15:0]
+@28
+(0)Max_tb.cpu.d_reg__out[15:0]
+(1)Max_tb.cpu.d_reg__out[15:0]
+(2)Max_tb.cpu.d_reg__out[15:0]
+(3)Max_tb.cpu.d_reg__out[15:0]
+(4)Max_tb.cpu.d_reg__out[15:0]
+(5)Max_tb.cpu.d_reg__out[15:0]
+(6)Max_tb.cpu.d_reg__out[15:0]
+(7)Max_tb.cpu.d_reg__out[15:0]
+(8)Max_tb.cpu.d_reg__out[15:0]
+(9)Max_tb.cpu.d_reg__out[15:0]
+(10)Max_tb.cpu.d_reg__out[15:0]
+(11)Max_tb.cpu.d_reg__out[15:0]
+(12)Max_tb.cpu.d_reg__out[15:0]
+(13)Max_tb.cpu.d_reg__out[15:0]
+(14)Max_tb.cpu.d_reg__out[15:0]
+(15)Max_tb.cpu.d_reg__out[15:0]
+@1401200
+-group_end
+@23
+Max_tb.ram.out[15:0]
+@200
+-
+-Alu
+@22
+Max_tb.cpu.alu.x[15:0]
+Max_tb.cpu.alu.y[15:0]
+Max_tb.cpu.alu.out[15:0]
+@200
+-
+-Rom
+@22
+Max_tb.rom.address[13:0]
+Max_tb.rom.out[15:0]
+@200
+-
+-Instruction
+@22
+Max_tb.cpu.control.instruction[15:0]
+@28
+Max_tb.cpu.control.a
+@200
+-
+-Extra
+@28
+Max_tb.cpu.alu.zx
+Max_tb.cpu.alu.nx
+Max_tb.cpu.alu.zy
+Max_tb.cpu.alu.ny
+Max_tb.cpu.alu.f
+Max_tb.cpu.alu.no
+Max_tb.cpu.alu.ng
+Max_tb.cpu.alu.zr
+@200
+-
+-a_reg
+@28
+Max_tb.cpu.a_reg.load
+@22
+Max_tb.cpu.a_reg.in[15:0]
+@200
+-d_reg
+@28
+Max_tb.cpu.d_reg.load
+@22
+Max_tb.cpu.d_reg.in[15:0]
+@200
+-Ram
+@28
+Max_tb.ram.load
+@22
+Max_tb.ram.in[15:0]
+Max_tb.ram.out[15:0]
+Max_tb.ram.address[13:0]
+[pattern_trace] 1
+[pattern_trace] 0

@@ -2,10 +2,10 @@
 [*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
 [*] Sat Feb 28 07:29:14 2026
 [*]
-[dumpfile] "/home/vircodificat/projects/nand2tetris/build/computer.vcd"
+[dumpfile] "build/computer.vcd"
 [dumpfile_mtime] "Sat Feb 28 07:29:01 2026"
 [dumpfile_size] 162804
-[savefile] "/home/vircodificat/projects/nand2tetris/gtkw/computer.gtkw"
+[savefile] "gtkw/computer.gtkw"
 [timestart] 0
 [size] 1440 881
 [pos] -27 -24

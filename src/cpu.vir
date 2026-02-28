@@ -33,6 +33,9 @@ mod Cpu {
         a_reg.out
     };
 
+    control.zr := alu.zr;
+    control.ng := alu.ng;
+
     a_reg.clock := clock;
     d_reg.clock := clock;
     pc_reg.clock := clock;
@@ -54,7 +57,7 @@ mod Cpu {
     d_reg.in := alu.out;
     pc_reg.in := a_reg.out;
 
-    pc_reg.inc := control.inc_pc;
+    pc_reg.inc := true;
 
     memory_out := alu.out;
     memory_addr := a_reg.out;
@@ -66,6 +69,8 @@ mod Control {
     incoming reset : Bit;
 
     incoming instruction : Word[16];
+    incoming zr : Bit;
+    incoming ng : Bit;
 
     outgoing load_a : Bit;
     outgoing load_d : Bit;
@@ -85,6 +90,10 @@ mod Control {
 
     outgoing memory_write : Bit;
 
+    // ALU output is positive
+    wire ps : Bit;
+    ps := (zr->or(ng))->not();
+
     wire a : Bit;
     wire c1 : Bit;
     wire c2 : Bit;
@@ -98,6 +107,12 @@ mod Control {
     wire j1 : Bit;
     wire j2 : Bit;
     wire j3 : Bit;
+
+    wire is_c_instruction : Bit;
+    is_c_instruction := instruction[15];
+
+    wire is_a_instruction : Bit;
+    is_a_instruction := is_c_instruction->not();
 
     a  := instruction[12];
 
@@ -116,9 +131,23 @@ mod Control {
     j2 := instruction[1];
     j3 := instruction[0];
 
-    load_a := instruction[15]->not()->or(reset); // TODO
+    load_a := is_a_instruction->or(reset); // TODO
     load_d := d2->or(reset);
-    load_pc := reset;
+    load_pc := if reset {
+        true
+    } else if is_jump->and(is_c_instruction) {
+            zr->and(j2)
+        ->or(
+            ng->and(j1)
+        )->or(
+            ps->and(j3)
+        )
+    } else {
+        false
+    };
+
+    wire is_jump : Bit;
+    is_jump := word(j1, j2, j3)->any();
 
     inc_pc := true;
 
@@ -129,7 +158,7 @@ mod Control {
     alu_f  := c5->not();
     alu_no := c6;
 
-    memory_write := d3;
+    memory_write := is_c_instruction->and(d3);
     alu_source_memory := a;
     a_source_instruction := instruction[15]->not();
 }
