@@ -1,24 +1,24 @@
 [*]
 [*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
-[*] Sat Feb 28 06:10:50 2026
+[*] Sat Feb 28 07:29:14 2026
 [*]
-[dumpfile] "build/computer.vcd"
-[dumpfile_mtime] "Sat Feb 28 06:08:43 2026"
-[dumpfile_size] 129975
-[savefile] "gtkw/computer.gtkw"
+[dumpfile] "/home/vircodificat/projects/nand2tetris/build/computer.vcd"
+[dumpfile_mtime] "Sat Feb 28 07:29:01 2026"
+[dumpfile_size] 162804
+[savefile] "/home/vircodificat/projects/nand2tetris/gtkw/computer.gtkw"
 [timestart] 0
-[size] 1136 600
-[pos] -1 -1
-*-14.000000 15000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[size] 1440 881
+[pos] -27 -24
+*-14.000000 60000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] Computer_tb.
 [treeopen] Computer_tb.cpu.
-[treeopen] Computer_tb.cpu.a_reg.
 [treeopen] Computer_tb.cpu.a_reg.register0.
+[treeopen] Computer_tb.ram.
 [sst_width] 278
 [signals_width] 215
 [sst_expanded] 1
-[sst_vpaned_height] 157
-@28
+[sst_vpaned_height] 255
+@29
 Computer_tb.cycle
 @200
 -
@@ -31,7 +31,34 @@ Computer_tb.reset
 @22
 Computer_tb.cpu.pc_reg__out[15:0]
 Computer_tb.cpu.a_reg__out[15:0]
+@c00022
 Computer_tb.cpu.d_reg__out[15:0]
+@28
+(0)Computer_tb.cpu.d_reg__out[15:0]
+(1)Computer_tb.cpu.d_reg__out[15:0]
+(2)Computer_tb.cpu.d_reg__out[15:0]
+(3)Computer_tb.cpu.d_reg__out[15:0]
+(4)Computer_tb.cpu.d_reg__out[15:0]
+(5)Computer_tb.cpu.d_reg__out[15:0]
+(6)Computer_tb.cpu.d_reg__out[15:0]
+(7)Computer_tb.cpu.d_reg__out[15:0]
+(8)Computer_tb.cpu.d_reg__out[15:0]
+(9)Computer_tb.cpu.d_reg__out[15:0]
+(10)Computer_tb.cpu.d_reg__out[15:0]
+(11)Computer_tb.cpu.d_reg__out[15:0]
+(12)Computer_tb.cpu.d_reg__out[15:0]
+(13)Computer_tb.cpu.d_reg__out[15:0]
+(14)Computer_tb.cpu.d_reg__out[15:0]
+(15)Computer_tb.cpu.d_reg__out[15:0]
+@1401200
+-group_end
+@200
+-
+-Alu
+@22
+Computer_tb.cpu.alu.x[15:0]
+Computer_tb.cpu.alu.y[15:0]
+Computer_tb.cpu.alu.out[15:0]
 @200
 -
 -Rom
@@ -40,16 +67,41 @@ Computer_tb.rom.address[13:0]
 Computer_tb.rom.out[15:0]
 @200
 -
--Extra
+-Instruction
 @22
-Computer_tb.cpu.instruction[15:0]
+Computer_tb.cpu.control.instruction[15:0]
 @28
-Computer_tb.cpu.a_reg__load
-@29
-Computer_tb.cpu.a_reg.register0.in
+Computer_tb.cpu.control.a
+@200
+-
+-Extra
 @28
-Computer_tb.cpu.a_reg.register0.load
-Computer_tb.cpu.a_reg.register0.out
-Computer_tb.cpu.a_reg.register0.state
+Computer_tb.cpu.alu.zx
+Computer_tb.cpu.alu.nx
+Computer_tb.cpu.alu.zy
+Computer_tb.cpu.alu.ny
+Computer_tb.cpu.alu.f
+Computer_tb.cpu.alu.no
+@200
+-
+-a_reg
+@28
+Computer_tb.cpu.a_reg.load
+@22
+Computer_tb.cpu.a_reg.in[15:0]
+@200
+-d_reg
+@28
+Computer_tb.cpu.d_reg.load
+@22
+Computer_tb.cpu.d_reg.in[15:0]
+@200
+-Ram
+@28
+Computer_tb.ram.load
+@22
+Computer_tb.ram.in[15:0]
+Computer_tb.ram.out[15:0]
+Computer_tb.ram.address[13:0]
 [pattern_trace] 1
 [pattern_trace] 0

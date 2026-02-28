@@ -9,6 +9,8 @@ module Ram16k(
 
     always @(posedge clock) begin
         if (load) begin
+            $display("-------------------- STORE ---------------------");
+            $display("memory[%d] = %d", address, in);
             memory[address] <= in;
         end
 

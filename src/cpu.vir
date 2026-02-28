@@ -42,6 +42,7 @@ mod Cpu {
     pc_reg.load := control.load_pc;
 
     control.instruction := instruction;
+    control.reset := reset;
 
     pc_reg.reset := reset;
 
@@ -62,6 +63,8 @@ mod Cpu {
 }
 
 mod Control {
+    incoming reset : Bit;
+
     incoming instruction : Word[16];
 
     outgoing load_a : Bit;
@@ -82,20 +85,51 @@ mod Control {
 
     outgoing memory_write : Bit;
 
-    load_a := instruction[15]->not(); // TODO
-    load_d := false;
-    load_pc := false;
+    wire a : Bit;
+    wire c1 : Bit;
+    wire c2 : Bit;
+    wire c3 : Bit;
+    wire c4 : Bit;
+    wire c5 : Bit;
+    wire c6 : Bit;
+    wire d1 : Bit;
+    wire d2 : Bit;
+    wire d3 : Bit;
+    wire j1 : Bit;
+    wire j2 : Bit;
+    wire j3 : Bit;
+
+    a  := instruction[12];
+
+    c1 := instruction[11];
+    c2 := instruction[10];
+    c3 := instruction[9];
+    c4 := instruction[8];
+    c5 := instruction[7];
+    c6 := instruction[6];
+
+    d1 := instruction[5];
+    d2 := instruction[4];
+    d3 := instruction[3];
+
+    j1 := instruction[2];
+    j2 := instruction[1];
+    j3 := instruction[0];
+
+    load_a := instruction[15]->not()->or(reset); // TODO
+    load_d := d2->or(reset);
+    load_pc := reset;
 
     inc_pc := true;
 
-    alu_zx := false;
-    alu_nx := false;
-    alu_zy := false;
-    alu_ny := false;
-    alu_f  := false;
-    alu_no := false;
+    alu_zx := c1;
+    alu_nx := c2;
+    alu_zy := c3;
+    alu_ny := c4;
+    alu_f  := c5->not();
+    alu_no := c6;
 
-    alu_source_memory := false;
-    memory_write := false;
+    memory_write := d3;
+    alu_source_memory := a;
     a_source_instruction := instruction[15]->not();
 }
