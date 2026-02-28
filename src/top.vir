@@ -1,5 +1,6 @@
 import base;
 import arithmetic;
 import memory;
+import cpu;
 
 mod Top {}

@@ -1,19 +1,19 @@
+TB = "alu"
+
 all: run
 
 run: build
-	./tb
+	./build/tb_$(TB)
 
 build:
 	vir compile src/top.vir
-	iverilog tb.v build/* -o tb
+	iverilog tb/$(TB).v build/*.v -o build/tb_$(TB)
 
 wave: build
-	./tb || exit 0
-	gtkwave vars.gtkw
+	./build/tb_$(TB) || exit 0
+	gtkwave gtkw/$(TB).gtkw
 
 clean:
 	rm -rf build/
-	rm -f tb
-	
 
 .PHONY: all clean build wave

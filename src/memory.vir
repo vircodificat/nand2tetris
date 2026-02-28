@@ -1,4 +1,5 @@
 import base;
+import arithmetic;
 
 mod DffEn {
     incoming clock : Clock;
@@ -308,6 +309,7 @@ mod Ram512 {
     out := load_mux.out;
 }
 
+/*
 mod Ram4k {
     incoming clock : Clock;
 
@@ -380,7 +382,9 @@ mod Ram4k {
 
     out := load_mux.out;
 }
+*/
 
+/*
 mod Ram16k {
     incoming clock : Clock;
 
@@ -452,4 +456,42 @@ mod Ram16k {
     load_mux.h := r7.out;
 
     out := load_mux.out;
+}
+*/
+
+ext mod Rom16k {
+    incoming clock : Clock;
+
+    incoming address : Word[14];
+    outgoing out : Word[16];
+}
+
+mod Pc {
+    incoming clock : Clock;
+
+    incoming in : Word[16];
+    incoming reset : Bit;
+    incoming load : Bit;
+    incoming inc : Bit;
+
+    outgoing out : Word[16];
+
+    mod pc of Register;
+    pc.clock := clock;
+    pc.load := true;
+    pc.in := if reset {
+        0
+    } else if load {
+        in
+    } else if inc {
+        incrementer.out
+    } else {
+        pc.out
+    };
+
+    mod incrementer of arithmetic::Inc16;
+    incrementer.clock := clock;
+    incrementer.in := pc.out;
+
+    out := pc.out;
 }

@@ -1,0 +1,100 @@
+import memory;
+
+mod Cpu {
+    incoming clock : Clock;
+    incoming reset : Bit;
+
+    incoming instruction : Word[16];
+    incoming memory_in : Word[16];
+
+    outgoing memory_out : Word[16];
+    outgoing memory_addr : Word[16];
+    outgoing memory_write : Bit;
+    outgoing pc : Word[16];
+
+    mod control of Control;
+
+    mod a_reg of memory::Register;
+    mod d_reg of memory::Register;
+    mod pc_reg of memory::Pc;
+
+    mod alu of arithmetic::Alu;
+    alu.zx := control.alu_zx;
+    alu.nx := control.alu_nx;
+    alu.zy := control.alu_zy;
+    alu.ny := control.alu_ny;
+    alu.f  := control.alu_f;
+    alu.no := control.alu_no;
+
+    alu.x := d_reg.out;
+    alu.y := if control.alu_source_memory {
+        memory_in
+    } else {
+        a_reg.out
+    };
+
+    a_reg.clock := clock;
+    d_reg.clock := clock;
+    pc_reg.clock := clock;
+
+    control.instruction := instruction;
+    a_reg.load := control.load_a;
+    d_reg.load := control.load_d;
+    pc_reg.load := control.load_pc;
+
+    pc_reg.reset := reset;
+
+    a_reg.in := if control.a_source_instruction {
+        word(0w1, instruction[15..0])
+    } else {
+        alu.out
+    };
+    d_reg.in := alu.out;
+    pc_reg.in := a_reg.out;
+
+    pc_reg.inc := control.inc_pc;
+
+    memory_out := alu.out;
+    memory_addr := a_reg.out;
+    memory_write := control.memory_write;
+    pc := pc_reg.out;
+}
+
+mod Control {
+    incoming instruction : Word[16];
+
+    outgoing load_a : Bit;
+    outgoing load_d : Bit;
+    outgoing load_pc : Bit;
+
+    outgoing inc_pc : Bit;
+
+    outgoing alu_zx : Bit;
+    outgoing alu_nx : Bit;
+    outgoing alu_zy : Bit;
+    outgoing alu_ny : Bit;
+    outgoing alu_f  : Bit;
+    outgoing alu_no : Bit;
+
+    outgoing alu_source_memory : Bit;
+    outgoing a_source_instruction : Bit;
+
+    outgoing memory_write : Bit;
+
+    load_a := instruction[15]->or(false); // TODO
+    load_d := false;
+    load_pc := false;
+
+    inc_pc := false;
+
+    alu_zx := false;
+    alu_nx := false;
+    alu_zy := false;
+    alu_ny := false;
+    alu_f  := false;
+    alu_no := false;
+
+    alu_source_memory := false;
+    memory_write := false;
+    a_source_instruction := instruction[15];
+}
