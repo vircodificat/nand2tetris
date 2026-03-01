@@ -9,7 +9,6 @@ verilator_compile: build
 		build/*.v
 
 verilator_build_add: compile
-	@echo $(VERILATOR_ROOT)
 	g++ \
 		-I/home/vircodificat/.local/verilator/share/verilator/include/ \
 		-Ibuild/verilator \
