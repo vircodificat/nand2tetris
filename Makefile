@@ -1,6 +1,13 @@
 TB = "alu"
 
-all: run
+BASEDIR := $(CURDIR)
+
+default: run
+	@echo "Current dir: $(PWD)"
+
+
+include verilator/Makefile
+
 
 run: build
 	./build/tb_$(TB)
@@ -16,4 +23,4 @@ wave: build
 clean:
 	rm -rf build/
 
-.PHONY: all clean build wave
+.PHONY: all clean build wave compile

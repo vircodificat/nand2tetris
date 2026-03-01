@@ -3,4 +3,23 @@ import arithmetic;
 import memory;
 import cpu;
 
-mod Top {}
+mod Top {
+    incoming clock : Clock;
+    incoming reset : Bit;
+
+    mod cpu of cpu::Cpu;
+    mod rom of memory::Rom16k;
+    mod ram of memory::Ram16k;
+
+    cpu.clock := clock;
+    cpu.reset := reset;
+    cpu.memory_in := ram.out;
+    cpu.instruction := rom.out;
+
+    ram.clock := clock;
+    ram.address := cpu.memory_addr[14..0];
+    ram.load := cpu.memory_write;
+    ram.in := cpu.memory_out;
+
+    rom.address := cpu.pc[14..0];
+}
