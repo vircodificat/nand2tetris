@@ -4,7 +4,7 @@
 #include "verilated.h"
 #include "VCpu.h"
 
-#define DEBUG 1
+#define DEBUG 0
 #define LOG(...) if (DEBUG) { printf(__VA_ARGS__); }
 
 VCpu CPU;
@@ -17,8 +17,8 @@ void hack_setup() {
     Verilated::commandArgs(0, (char**)NULL);
 
     for (int i = 0; i < 0x2000; i++) {
-//        screen[i] = 0xaeae;
-        screen[i] = 0x0000;
+        screen[i] = 0xaeae;
+//        screen[i] = 0x0000;
     }
 
 //    screen[0] = 0b00000000000001101;

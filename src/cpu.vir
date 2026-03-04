@@ -63,6 +63,15 @@ mod Cpu {
     memory_addr := a_reg.out;
     memory_write := control.memory_write;
     pc := pc_reg.out;
+
+    mod mon of Monitor;
+    mon.clock := clock;
+    mon.reset := reset;
+    mon.pc := pc_reg.out;
+    mon.a := a_reg.out;
+    mon.d := d_reg.out;
+    mon.m := memory_in;
+    mon.instr := instruction;
 }
 
 mod Control {
@@ -161,4 +170,14 @@ mod Control {
     memory_write := is_c_instruction->and(d3);
     alu_source_memory := a;
     a_source_instruction := instruction[15]->not();
+}
+
+ext mod Monitor {
+    incoming clock : Clock;
+    incoming reset : Bit;
+    incoming pc : Word[16];
+    incoming instr : Word[16];
+    incoming a  : Word[16];
+    incoming d  : Word[16];
+    incoming m  : Word[16];
 }

@@ -1,5 +1,6 @@
 TB = "alu"
 
+VIR_SOURCES := $(wildcard src/*.vir)
 BASEDIR := $(CURDIR)
 
 default: run

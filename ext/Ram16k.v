@@ -11,10 +11,16 @@ module Ram16k(
 
     always @(posedge clock) begin
         if (load) begin
-            $display("-------------------- STORE ---------------------");
-            $display("memory[%d] = %d", address, in);
+//            $display("-------------------- STORE ---------------------");
+//            $display("memory[%d] = %d", address, in);
             memory[address] <= in;
+
+
         end
+        `ifdef VERILATOR
+            log_ram_write(address);
+        `endif
+        $display("Uh oh");
     end
 
     integer i;
@@ -24,4 +30,5 @@ module Ram16k(
             memory[i] = 16'hxxxx;
         end
     end
+
 endmodule
