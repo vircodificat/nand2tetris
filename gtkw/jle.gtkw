@@ -1,0 +1,107 @@
+[*]
+[*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
+[*] Sat Feb 28 07:29:14 2026
+[*]
+[dumpfile] "build/jle.vcd"
+[dumpfile_mtime] "Sat Feb 28 07:29:01 2026"
+[dumpfile_size] 162804
+[savefile] "gtkw/jle.gtkw"
+[timestart] 0
+[size] 1440 881
+[pos] -27 -24
+*-14.000000 60000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] Jle_tb.
+[treeopen] Jle_tb.cpu.
+[treeopen] Jle_tb.cpu.a_reg.register0.
+[treeopen] Jle_tb.ram.
+[sst_width] 278
+[signals_width] 215
+[sst_expanded] 1
+[sst_vpaned_height] 255
+@29
+Jle_tb.cycle
+@200
+-
+@28
+Jle_tb.clock
+Jle_tb.reset
+@200
+-
+-Registers
+@22
+Jle_tb.cpu.pc_reg__out[15:0]
+Jle_tb.cpu.a_reg__out[15:0]
+@c00022
+Jle_tb.cpu.d_reg__out[15:0]
+@28
+(0)Jle_tb.cpu.d_reg__out[15:0]
+(1)Jle_tb.cpu.d_reg__out[15:0]
+(2)Jle_tb.cpu.d_reg__out[15:0]
+(3)Jle_tb.cpu.d_reg__out[15:0]
+(4)Jle_tb.cpu.d_reg__out[15:0]
+(5)Jle_tb.cpu.d_reg__out[15:0]
+(6)Jle_tb.cpu.d_reg__out[15:0]
+(7)Jle_tb.cpu.d_reg__out[15:0]
+(8)Jle_tb.cpu.d_reg__out[15:0]
+(9)Jle_tb.cpu.d_reg__out[15:0]
+(10)Jle_tb.cpu.d_reg__out[15:0]
+(11)Jle_tb.cpu.d_reg__out[15:0]
+(12)Jle_tb.cpu.d_reg__out[15:0]
+(13)Jle_tb.cpu.d_reg__out[15:0]
+(14)Jle_tb.cpu.d_reg__out[15:0]
+(15)Jle_tb.cpu.d_reg__out[15:0]
+@1401200
+-group_end
+@200
+-
+-Alu
+@22
+Jle_tb.cpu.alu.x[15:0]
+Jle_tb.cpu.alu.y[15:0]
+Jle_tb.cpu.alu.out[15:0]
+@200
+-
+-Rom
+@22
+Jle_tb.rom.address[13:0]
+Jle_tb.rom.out[15:0]
+@200
+-
+-Instruction
+@22
+Jle_tb.cpu.control.instruction[15:0]
+@28
+Jle_tb.cpu.control.a
+@200
+-
+-Extra
+@28
+Jle_tb.cpu.alu.zx
+Jle_tb.cpu.alu.nx
+Jle_tb.cpu.alu.zy
+Jle_tb.cpu.alu.ny
+Jle_tb.cpu.alu.f
+Jle_tb.cpu.alu.no
+@200
+-
+-a_reg
+@28
+Jle_tb.cpu.a_reg.load
+@22
+Jle_tb.cpu.a_reg.in[15:0]
+@200
+-d_reg
+@28
+Jle_tb.cpu.d_reg.load
+@22
+Jle_tb.cpu.d_reg.in[15:0]
+@200
+-Ram
+@28
+Jle_tb.ram.load
+@22
+Jle_tb.ram.in[15:0]
+Jle_tb.ram.out[15:0]
+Jle_tb.ram.address[13:0]
+[pattern_trace] 1
+[pattern_trace] 0

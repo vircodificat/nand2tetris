@@ -131,11 +131,11 @@ mod Control {
     j2 := instruction[1];
     j3 := instruction[0];
 
-    load_a := is_a_instruction->or(reset); // TODO
-    load_d := d2->or(reset);
+    load_a := is_a_instruction->or(reset);
+    load_d := is_c_instruction->and(d2)->or(reset);
     load_pc := if reset {
         true
-    } else if is_jump->and(is_c_instruction) {
+    } else if is_c_instruction->and(is_jump) {
             zr->and(j2)
         ->or(
             ng->and(j1)
