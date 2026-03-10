@@ -140,7 +140,9 @@ mod Control {
     j2 := instruction[1];
     j3 := instruction[0];
 
-    load_a := is_a_instruction->or(reset);
+    load_a := is_a_instruction->or(reset)->or(
+        is_c_instruction->and(d1)
+    );
     load_d := is_c_instruction->and(d2)->or(reset);
     load_pc := if reset {
         true
