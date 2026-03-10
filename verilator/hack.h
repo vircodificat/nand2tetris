@@ -8,7 +8,6 @@
 #define MEM_KBD 0x6000
 
 extern uint16_t rom[16384];
-extern uint16_t ram[16384];
 extern uint32_t cycle;
 
 void hack_setup();

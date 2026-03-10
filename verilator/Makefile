@@ -44,16 +44,17 @@ verilator_main: \
 	build/verilator/verilated.o \
 	build/verilator/verilated_threads.o
 	g++ \
+		-Wno-format-zero-length \
 		-g \
 		-I$(VERILATOR_ROOT)/include/ \
 		-I$(VERILATOR_ROOT)/include/vltstd/ \
 		build/verilator/verilated.o \
 		build/verilator/verilated_threads.o \
 		-Ibuild/verilator \
-		-lpthread \
 		build/verilator/*.cpp \
 		verilator/hack.cpp \
 		verilator/main.cpp \
 		verilator/dpi.cpp \
 		-lSDL2 \
+		-O2 \
 		-o build/verilator/main
