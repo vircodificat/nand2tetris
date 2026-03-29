@@ -101,7 +101,7 @@ mod Control {
 
     // ALU output is positive
     wire ps : Bit;
-    ps := (zr->or(ng))->not();
+    ps := zr || !ng;
 
     wire a : Bit;
     wire c1 : Bit;
@@ -121,7 +121,7 @@ mod Control {
     is_c_instruction := instruction[15];
 
     wire is_a_instruction : Bit;
-    is_a_instruction := is_c_instruction->not();
+    is_a_instruction := !is_c_instruction;
 
     a  := instruction[12];
 
@@ -140,25 +140,20 @@ mod Control {
     j2 := instruction[1];
     j3 := instruction[0];
 
-    load_a := is_a_instruction->or(reset)->or(
-        is_c_instruction->and(d1)
-    );
-    load_d := is_c_instruction->and(d2)->or(reset);
+    load_a := is_a_instruction || reset || (is_c_instruction && d1);
+    load_d := (is_c_instruction && d2) || reset;
     load_pc := if reset {
         true
-    } else if is_c_instruction->and(is_jump) {
-            zr->and(j2)
-        ->or(
-            ng->and(j1)
-        )->or(
-            ps->and(j3)
-        )
+    } else if is_c_instruction && is_jump {
+            (zr && j2) ||
+            (ng && j1) ||
+            (ps && j3)
     } else {
         false
     };
 
     wire is_jump : Bit;
-    is_jump := word(j1, j2, j3)->any();
+    is_jump := j1 || j2 || j3;
 
     inc_pc := true;
 
@@ -166,12 +161,12 @@ mod Control {
     alu_nx := c2;
     alu_zy := c3;
     alu_ny := c4;
-    alu_f  := c5->not();
+    alu_f  := !c5;
     alu_no := c6;
 
-    memory_write := is_c_instruction->and(d3);
+    memory_write := is_c_instruction && d3;
     alu_source_memory := a;
-    a_source_instruction := instruction[15]->not();
+    a_source_instruction := !instruction[15];
 }
 
 ext mod Monitor {

@@ -3,14 +3,14 @@ mod Nand {
     incoming b : Bit;
     outgoing out : Bit;
 
-    out := a->and(b)->not();
+    out := !(a && b);
 }
 
 mod Not {
     incoming in : Bit;
     outgoing out : Bit;
 
-    out := in->not();
+    out := !in;
 }
 
 mod And {
@@ -18,7 +18,7 @@ mod And {
     incoming b : Bit;
     outgoing out : Bit;
 
-    out := a->and(b);
+    out := a && b;
 }
 
 mod Or {
@@ -26,7 +26,7 @@ mod Or {
     incoming b : Bit;
     outgoing out : Bit;
 
-    out := a->or(b);
+    out := a || b;
 }
 
 mod XOr {
@@ -35,11 +35,11 @@ mod XOr {
     outgoing out : Bit;
 
     wire not_a_b : Bit;
-    not_a_b := a->not()->and(b);
+    not_a_b := !a && b;
     wire a_not_b : Bit;
-    a_not_b := a->and(b->not());
+    a_not_b := a && !b;
 
-    out := not_a_b->or(a_not_b);
+    out := not_a_b || a_not_b;
 }
 
 mod Mux {
@@ -49,12 +49,12 @@ mod Mux {
     outgoing out : Bit;
 
     wire if_not_sel_a : Bit;
-    if_not_sel_a := a->and(sel->not());
+    if_not_sel_a := a && !sel;
 
     wire if_sel_b : Bit;
-    if_sel_b := b->and(sel);
+    if_sel_b := b && sel;
 
-    out := if_not_sel_a->or(if_sel_b);
+    out := if_not_sel_a || if_sel_b;
 }
 
 mod DMux {
@@ -81,7 +81,7 @@ mod Not16 {
     incoming in : Word[16];
     outgoing out : Word[16];
 
-    out := in->not();
+    out := ~in;
 }
 
 mod And16 {
@@ -89,7 +89,7 @@ mod And16 {
     incoming b : Word[16];
     outgoing out : Word[16];
 
-    out := a->and(b);
+    out := a & b;
 }
 
 mod Or16 {
@@ -97,7 +97,7 @@ mod Or16 {
     incoming b : Word[16];
     outgoing out : Word[16];
 
-    out := a->or(b);
+    out := a | b;
 }
 
 mod Mux16 {
@@ -198,7 +198,11 @@ mod Or8Way {
     incoming in : Word[8];
     outgoing out : Bit;
 
-    out := in->any();
+    out :=
+        in[0] || in[1] ||
+        in[2] || in[3] ||
+        in[4] || in[5] ||
+        in[6] || in[7];
 }
 
 mod Mux4Way16 {
@@ -241,10 +245,10 @@ mod DMux4Way {
     dmux.in := in;
     dmux.sel := sel[0];
 
-    a := sel[1]->not()->and(dmux.a);
-    b := sel[1]->not()->and(dmux.b);
-    c := sel[1]->and(dmux.a);
-    d := sel[1]->and(dmux.b);
+    a := !sel[1] && dmux.a;
+    b := !sel[1] && dmux.b;
+    c := sel[1] && dmux.a;
+    d := sel[1] && dmux.b;
 }
 
 mod DMux8Way {

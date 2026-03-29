@@ -1,0 +1,5 @@
+[project]
+name = "nand2tetris"
+
+[prog]
+platform = "icesugar"

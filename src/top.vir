@@ -3,16 +3,17 @@ import arithmetic;
 import memory;
 import cpu;
 
-mod Top {
+export mod Top {
     incoming clock : Clock;
-    incoming reset : Bit;
 
+    mod reset of Reset;
     mod cpu of cpu::Cpu;
     mod rom of memory::Rom16k;
     mod ram of memory::Ram16k;
 
+    reset.clock := clock;
     cpu.clock := clock;
-    cpu.reset := reset;
+    cpu.reset := reset.reset;
     cpu.memory_in := ram.out;
     cpu.instruction := rom.out;
 
@@ -22,4 +23,19 @@ mod Top {
     ram.in := cpu.memory_out;
 
     rom.address := cpu.pc[14..0];
+}
+
+mod Reset {
+    incoming clock : Clock;
+    outgoing reset : Bit;
+
+    reg reset_counter : Word[32] on clock;
+    reset_counter <=
+        if reset_counter == -1w32 {
+            reset_counter
+        } else {
+            reset_counter + 1
+        };
+
+    reset := reset_counter == 0;
 }

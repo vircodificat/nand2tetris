@@ -7,8 +7,8 @@ mod HalfAdder {
     outgoing sum : Bit;
     outgoing carry : Bit;
 
-    sum := a->xor(b);
-    carry := a->and(b);
+    sum := a ^^ b;
+    carry := a && b;
 }
 
 mod FullAdder {
@@ -28,7 +28,7 @@ mod FullAdder {
     half1.b := c;
 
     sum := half1.sum;
-    carry := half0.carry->or(half1.carry);
+    carry := half0.carry || half1.carry;
 }
 
 mod Add16 {
@@ -156,7 +156,7 @@ mod Alu {
 
     mod mux_x1 of base::Mux16;
     mux_x1.a := mux_x0.out;
-    mux_x1.b := mux_x0.out->not();
+    mux_x1.b := ~mux_x0.out;
     mux_x1.sel := nx;
 
     wire x1 : Word[16];
@@ -169,7 +169,7 @@ mod Alu {
 
     mod mux_y1 of base::Mux16;
     mux_y1.a := mux_y0.out;
-    mux_y1.b := mux_y0.out->not();
+    mux_y1.b := ~mux_y0.out;
     mux_y1.sel := ny;
 
     wire y1 : Word[16];
@@ -193,7 +193,7 @@ mod Alu {
 
     mod mux_result of base::Mux16;
     mux_result.a := out0;
-    mux_result.b := out0->not();
+    mux_result.b := ~out0;
     mux_result.sel := no;
 
     wire result : Word[16];
@@ -208,5 +208,5 @@ mod Alu {
     any_hi.in := result[16..8];
 
     ng := result[15];
-    zr := any_lo.out->or(any_hi.out)->not();
+    zr := !(any_lo.out || any_hi.out);
 }
